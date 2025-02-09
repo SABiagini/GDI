@@ -85,16 +85,32 @@ This step generates a boxplot illustrating the sample distribution and creates a
 
 ![alt text](https://github.com/SABiagini/GDI/blob/main/LQV_preGDI.txt.png?raw=true)
 
+This approach does not require any custom decision and it's simply based on the distriution of the data across the different batches.
+
 ### 7. Run this step after all batches have been processed. 
 In this step (`DSGPfilter2.pbs`), you will first remove all the `*.keep` and `*.remove` files from the outlier samples identified in the previous step. Then, it runs the `count.pl` script to count how many sites fail the quality threshold in a specific number of samples (e.g., site `chr10_1234_A_C` fails in 35 samples). It then groups the sites based on how frequently each number of failures occurs and generates a new file with the frequency of these failure counts. The resulting file shows how many sites failed in exactly "x" number of samples and how often that number of failures appears in the dataset. For this script, you will need the `remove_batch` file, which contains the list of detected outliers.
 
 ### 8. Generate a list of variants to remove based on quality threshold failures across samples.
 
-The file `count.remove.group` contains the distribution of how many samples each variant failed the quality thresholds. The script `plot_variants_to_remove.R` generates a scatter plot visualizing how many variants failed in each sample count category. The plot helps to determine an appropriate cutoff for removing variants by allowing the user to visually inspect the distribution of failures. Based on this, the user can choose a threshold that filters variants exceeding a certain number of sample failures, marked by a vertical line on the plot. The number of variants exceeding this threshold is calculated and displayed.
+The file `count.remove.group` contains the distribution of how many samples each variant failed the quality thresholds:
+
+```
+338309 1
+347280 2
+261 267
+213 268
+...
+...
+```
+For example, the first line indicates that 338,309 sites failed in 1 sample. Similarly, the third line shows that 261 sites failed in 267 different samples.
+
+The script `plot_variants_to_remove.R` generates a scatter plot visualizing how many variants failed in each sample count category. The plot helps to determine an appropriate cutoff for removing variants by allowing the user to visually inspect the distribution of failures. Based on this, the user can choose a threshold that filters variants exceeding a certain number of sample failures, marked by a vertical line on the plot. The number of variants exceeding this threshold is calculated and displayed:
+
+![alt text](https://github.com/SABiagini/GDI/blob/main/cutoff_20perc.png?raw=true)
 
 The purpose of this process is to strike a balance between being too conservative and too aggressive in variant removal. While this may seem arbitrary, it is essential to consider that each dataset is unique, so this step should be approached in a customized way.
 
-After determining the cutoff value, which is stored in the `cutoff` variable from the R script, the list of sites to remove is prepared. This involves filtering the variants that exceed the specified threshold. These variants are extracted, sorted, and processed into the final list for removal:
+After determining the cutoff value, which is stored in the `cutoff` variable (60.6 in the example below) from the R script, the list of sites to remove is prepared. This involves filtering the variants that exceed the specified threshold. These variants are extracted, sorted, and processed into the final list for removal:
 
 ```bash
 awk '$2>60.6' count.remove.group | awk '{print $2}' | sort -n | uniq > 20perc
@@ -126,7 +142,20 @@ You can then run `DSGPfilter3.sh`, a revised version of `DSGPfilter1.sh`, and ob
 Run `PrePostGDI.R` to plot a boxplot comparison between the pre-GDI application and post-GDI application.
 
 The input file for this script will be a 3-column file with `SampleID`, `LQV_preGDI`, and `LQV_postGDI`. The header should be:
-`ID LQV_preGDI LQV_postGDI`.
+`ID LQV_preGDI LQV_postGDI`:
+
+```
+ID	LQV_preGDI	LQV_postGDI
+ID1	0.183	0.134
+ID2	0.103	0.064
+ID3	0.165	0.118
+ID4	0.168	0.120
+...
+...
+```
+For example, a plot might look like this one:
+
+![alt text](https://github.com/SABiagini/GDI/blob/main/pre_post_GDI.png?raw=true)
 
 ### Final Goal
 
