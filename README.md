@@ -31,10 +31,21 @@ This script will provide for each batch a file listing all the positions with MA
 ...
 ```
 ### 4. Prepare a list of variants to remove based on the selected INFO score filter (`remove.variants.R`)
-The input for this script is the file IDs.InfoScores generated in the previous step.
+The input for this script is the file IDs.InfoScores generated in the previous step. The script groups variants with the same ID from all batches and includes their corresponding INFO scores. If any batch has an INFO score less than or equal to the defined threshold (e.g., 0.4), the variant is flagged as an outlier. This means the variant will be marked for removal, as it does not meet the INFO score requirement across all batches. The script will generate a 2-column file, with the first column showing the variant ID and the second column indicating how many batches the variant failed to pass the INFO score filter:
+
+```
+identifiers	NumBelowThreshold
+1_49298_T_C	11
+1_79033_A_G	4
+1_86028_T_C	9
+1_234313_C_T	10
+...
+...
+```
+
 ### 5. Calculate samples' low quality based on GP, DS, and INFO score.
 
-This step **will be executed separately for each batch** and will consist of one main script (`DSGPfilter1.sbatch`) and an auxiliary one (`DSGPfilter.pl`), which is internally called by the main script.
+This step **must be executed separately for each batch** and will consist of one main script (`DSGPfilter1.sbatch`) and an auxiliary one (`DSGPfilter.pl`), which is internally called by the main script.
 
 **Briefly, what `DSGPfilter1.sbatch` does is:**
 
@@ -46,6 +57,28 @@ This step **will be executed separately for each batch** and will consist of one
 - Apply filters on GP and DS for each sample. This will give a list of variants to remove (as well as a list of variants to keep) for each sample.
 - It generates a `Sample_LQV` file for each batch, listing the proportion of LQV variants for each sample prior to filtering variants based on GP and DS.
 
+A Sample_LQV file contains 4 columns:
+
+Sample_ID
+Total number of sites
+Number of low-quality sites
+LQV score (the proportion of low-quality sites)
+
+The **LQV score** is calculated as the ratio of low-quality sites to the total number of sites:
+
+$$
+LQV\ score = \frac{\text{Number of low-quality sites}}{\text{Total number of sites}}
+$$
+
+```
+Sample10.10.4.0.99 5337523 121691 .02
+Sample1.10.4.0.99 5168470 290744 .05
+Sample12.10.4.0.99 4362019 1097195 .20
+Sample13.10.4.0.99 5295058 164156 .03
+Sample15.10.4.0.99 5372628 86586 .01
+...
+...
+```
 ### 6. Observe the sample distribution based on LQV scores before removing low-quality sites (`LQV.outliers.R`).
 
 This step generates a boxplot illustrating the sample distribution and creates a `remove_batch` file containing a list of samples to be removed.
