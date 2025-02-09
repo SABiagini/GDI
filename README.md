@@ -83,7 +83,7 @@ Sample15.10.4.0.99 5372628 86586 .01
 
 This step generates a boxplot illustrating the sample distribution and creates a `remove_batch` file containing a list of samples to be removed. If you merge all LQV files into one and run the `LQV.outliers.R` script, you will have a plot like this:
 
-![alt text](https://github.com/SABiagini/GDI/blob/main/LQV_preGDI.txt.png?raw=true)
+![alt text](https://github.com/SABiagini/GDI/blob/main/Figures/LQV_preGDI.txt.png?raw=true)
 
 This approach does not require any custom decision and it's simply based on the distriution of the data across the different batches.
 
@@ -106,7 +106,7 @@ For example, the first line indicates that 338,309 sites failed in 1 sample. Sim
 
 The script `plot_variants_to_remove.R` generates a scatter plot visualizing how many variants failed in each sample count category. The plot helps to determine an appropriate cutoff for removing variants by allowing the user to visually inspect the distribution of failures. Based on this, the user can choose a threshold that filters variants exceeding a certain number of sample failures, marked by a vertical line on the plot. The number of variants exceeding this threshold is calculated and displayed:
 
-![alt text](https://github.com/SABiagini/GDI/blob/main/cutoff_20perc.png?raw=true)
+![alt text](https://github.com/SABiagini/GDI/blob/main/Figures/cutoff_20perc.png?raw=true)
 
 The purpose of this process is to strike a balance between being too conservative and too aggressive in variant removal. While this may seem arbitrary, it is essential to consider that each dataset is unique, so this step should be approached in a customized way.
 
@@ -155,7 +155,7 @@ ID4	0.168	0.120
 ```
 For example, a plot might look like this one:
 
-![alt text](https://github.com/SABiagini/GDI/blob/main/pre_post_GDI.png?raw=true)
+![alt text](https://github.com/SABiagini/GDI/blob/main/Figures/pre_post_GDI.png?raw=true)
 
 ### Final Goal
 
