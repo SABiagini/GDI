@@ -83,7 +83,7 @@ Sample15.10.4.0.99 5372628 86586 .01
 
 This step generates a boxplot illustrating the sample distribution and creates a `remove_batch` file containing a list of samples to be removed. If you merge all LQV files into one and run the `LQV.outliers.R` script, you will have a plot like this:
 
-![alt text]([http://url/to/img.png](https://github.com/SABiagini/GDI/blob/main/LQV_preGDI.txt.png?raw=true))
+![alt text](https://github.com/SABiagini/GDI/blob/main/LQV_preGDI.txt.png?raw=true)
 
 ### 7. Run this step after all batches have been processed. 
 In this step (`DSGPfilter2.pbs`), you will first remove all the `*.keep` and `*.remove` files from the outlier samples identified in the previous step. Then, it runs the `count.pl` script to count how many sites fail the quality threshold in a specific number of samples (e.g., site `chr10_1234_A_C` fails in 35 samples). It then groups the sites based on how frequently each number of failures occurs and generates a new file with the frequency of these failure counts. The resulting file shows how many sites failed in exactly "x" number of samples and how often that number of failures appears in the dataset. For this script, you will need the `remove_batch` file, which contains the list of detected outliers.
