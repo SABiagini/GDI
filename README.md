@@ -38,13 +38,13 @@ This step **will be executed separately for each batch** and will consist of one
 
 **Briefly, what `DSGPfilter1.sbatch` does is:**
 
-- a. Extract variants with MAF > 0.05 (you need the file created in step 2 with two columns: CHROM and POS, no header)
-- b. Apply a GT to GP filter (this step fixes possible post-imputation GP/GT discrepancies)
-- c. Extract only fields of interest for each variant (GT, GP, and DS) for each individual in the file
-- d. Remove variants marked for removal due to the INFO score filter (you'll need the file created in step 4 with the `remove.variants.R` script)
-- e. Split the file by sample
-- f. Apply filters on GP and DS for each sample. This will give a list of variants to remove (as well as a list of variants to keep) for each sample.
-- g. It generates a `Sample_LQV` file for each batch, listing the proportion of LQV variants for each sample prior to filtering variants based on GP and DS.
+- Extract variants with MAF > 0.05 (you need the file created in step 2 with two columns: CHROM and POS, no header)
+- Apply a GT to GP filter (this step fixes possible post-imputation GP/GT discrepancies)
+- Extract only fields of interest for each variant (GT, GP, and DS) for each individual in the file
+- Remove variants marked for removal due to the INFO score filter (you'll need the file created in step 4 with the `remove.variants.R` script)
+- Split the file by sample
+- Apply filters on GP and DS for each sample. This will give a list of variants to remove (as well as a list of variants to keep) for each sample.
+- It generates a `Sample_LQV` file for each batch, listing the proportion of LQV variants for each sample prior to filtering variants based on GP and DS.
 
 ### 6. Observe the sample distribution based on LQV scores before removing low-quality sites (`LQV.outliers.R`).
 
