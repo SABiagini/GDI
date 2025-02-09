@@ -47,7 +47,7 @@ identifiers	NumBelowThreshold
 
 This step **must be executed separately for each batch** and will consist of one main script (`DSGPfilter1.sbatch`) and an auxiliary one (`DSGPfilter.pl`), which is internally called by the main script.
 
-**Briefly, what `DSGPfilter1.sbatch` does is:**
+**Briefly, what `DSGPfilter1.sh` does is:**
 
 - Extract variants with MAF > 0.05 (you need the file created in step 2 with two columns: CHROM and POS, no header)
 - Apply a GT to GP filter (this step fixes possible post-imputation GP/GT discrepancies)
