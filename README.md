@@ -43,6 +43,7 @@ identifiers	NumBelowThreshold
 ...
 ```
 
+For example, if we have 11 batches, the variant 1_49298_T_C in the example above will be flagged for removal.
 ### 5. Calculate samples' low quality based on GP, DS, and INFO score.
 
 This step **must be executed separately for each batch** and will consist of one main script (`DSGPfilter1.sbatch`) and an auxiliary one (`DSGPfilter.pl`), which is internally called by the main script.
