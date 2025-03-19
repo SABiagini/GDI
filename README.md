@@ -60,10 +60,10 @@ This step **must be executed separately for each batch** and will consist of one
 
 A Sample_LQV file contains 4 columns:
 
-Sample_ID
-Total number of sites
-Number of low-quality sites
-LQV score (the proportion of low-quality sites)
+`Sample_ID
+Total_number_of_sites
+Number_of_low-quality_sites
+LQV_score (the proportion of low-quality sites)`
 
 The **LQV score** is calculated as the ratio of low-quality sites to the total number of sites:
 
